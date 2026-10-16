@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>٥٠ كارت بينا 💬</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@500;700&display=swap">
+<style>
+:root{--bg:#3b5bfd;--card:#fffdf5;--ink:#14143a;--pink:#ff6fb1;--yel:#ffd93d;--grn:#2fd18b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a3fc0}}
+:root[data-theme="dark"]{--bg:#2a3fc0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{background:var(--bg);background-image:radial-gradient(rgba(255,255,255,.14) 2px,transparent 2px);background-size:26px 26px;color:var(--ink);font-family:'Tajawal',sans-serif;display:flex;justify-content:center;padding:18px 14px 40px}
+main{width:100%;max-width:420px;text-align:center}
+h1{font:400 32px 'Lalezar',sans-serif;color:#fff;text-shadow:3px 3px 0 var(--ink)}
+.lobby{margin-top:10px}
+.lbx{display:none;margin-top:10px;background:var(--card);border:3px solid var(--ink);border-radius:16px;box-shadow:4px 4px 0 var(--ink);padding:12px;text-align:right}
+.lbx.on{display:block}
+.lbx p{font-size:13px;font-weight:700;line-height:1.8}
+.row{display:flex;gap:6px;margin-top:8px}
+.lbx input{flex:1;min-width:0;padding:8px;border:3px solid var(--ink);border-radius:12px;font:700 16px 'Tajawal',sans-serif;background:#fff;color:var(--ink);text-align:center}
+.lbx input:focus-visible{outline:3px solid var(--pink)}
+.sm{font:700 14px 'Tajawal',sans-serif;border:3px solid var(--ink);border-radius:12px;background:var(--yel);color:var(--ink);padding:6px 12px;cursor:pointer}
+.sm:focus-visible{outline:3px solid var(--pink)}
+.sm[disabled]{opacity:.5;cursor:default}
+[hidden]{display:none!important}
+textarea{width:100%;height:78px;margin-top:6px;padding:8px;border:3px solid var(--ink);border-radius:12px;font:12px monospace;direction:ltr;background:#fff;color:var(--ink);resize:none}
+textarea:focus-visible{outline:3px solid var(--pink)}
+.st{margin-top:8px;font-size:13px;font-weight:700;line-height:1.7}
+.players{display:flex;gap:10px;margin:14px 0 10px}
+.pl{flex:1;border:3px solid var(--ink);border-radius:14px;background:#fff;opacity:.6;transition:all .3s;box-shadow:3px 3px 0 var(--ink);padding:6px 8px}
+.pl.turn{opacity:1;background:var(--yel);transform:translateY(-3px);box-shadow:5px 5px 0 var(--ink)}
+.pl small{display:block;font-size:11px;font-weight:700}
+.pl input{width:100%;border:0;background:transparent;text-align:center;font:700 17px 'Tajawal',sans-serif;color:var(--ink);outline:none}
+.pl input:focus-visible{outline:2px solid var(--ink);border-radius:6px}
+.cats{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.cat{font:700 13px 'Tajawal',sans-serif;border:2px solid var(--ink);border-radius:99px;background:#fff;color:var(--ink);padding:4px 11px;cursor:pointer}
+.cat.on{background:var(--yel);box-shadow:2px 2px 0 var(--ink)}
+.cat:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.count{color:#fff;font-weight:700;font-size:14px;margin-bottom:10px;min-height:20px}
+.stage{perspective:1000px}
+.card{position:relative;width:100%;height:300px;border:0;background:none;cursor:pointer;display:block;font:inherit;color:inherit}
+.card[disabled]{cursor:default}
+.card:focus-visible{outline:4px solid var(--yel);outline-offset:6px;border-radius:26px}
+.inner{position:absolute;inset:0;transition:transform .7s cubic-bezier(.3,1.2,.4,1);transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border:4px solid var(--ink);border-radius:26px;box-shadow:7px 7px 0 var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 22px}
+.front{background:var(--pink);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.2) 0 12px,transparent 12px 24px)}
+.front .big{font:400 96px 'Lalezar',sans-serif;color:#fff;-webkit-text-stroke:4px var(--ink);line-height:1}
+.front span.t{font:700 17px 'Tajawal',sans-serif;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:4px 14px;margin-top:10px}
+.back{transform:rotateY(180deg);background:var(--card)}
+.tag{position:absolute;top:14px;right:16px;font:700 13px 'Tajawal',sans-serif;border:2px solid var(--ink);border-radius:99px;padding:2px 12px}
+.who{position:absolute;top:14px;left:16px;font:700 13px 'Tajawal',sans-serif}
+.q{font:400 26px/1.55 'Lalezar',sans-serif}
+.btns{margin-top:24px;display:flex;gap:10px;justify-content:center}
+.btn{font:400 20px 'Lalezar',sans-serif;background:var(--yel);color:var(--ink);border:4px solid var(--ink);border-radius:16px;padding:7px 22px;box-shadow:5px 5px 0 var(--ink);cursor:pointer;transition:transform .1s,box-shadow .1s}
+.btn.alt{background:#fff;font-size:17px}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.btn:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.btn[disabled]{opacity:.45;cursor:default}
+.ans{margin-top:18px;text-align:right}
+.ans label{display:block;color:#fff;font-weight:700;font-size:14px;margin-bottom:4px}
+#at{font:700 16px 'Tajawal',sans-serif;direction:rtl;height:84px;margin-top:0}
+#at[readonly]{background:#eceeff}
+.recap{max-height:260px;overflow:auto;text-align:right;margin:10px 0 16px}
+.rc{border-bottom:2px dashed #cfcfe8;padding:8px 2px;font-size:14px;line-height:1.7}
+.rc b{display:block}
+.rc span{color:#3b3b7a;font-weight:700}
+.end{display:none;background:var(--card);border:4px solid var(--ink);border-radius:26px;box-shadow:7px 7px 0 var(--ink);padding:30px 20px}
+.end.on{display:block}
+.end h2{font:400 30px 'Lalezar',sans-serif}
+.end p{margin:10px 0 18px;font-weight:700;line-height:1.9}
+.bit{position:fixed;top:-30px;z-index:9;pointer-events:none;font-size:24px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.bit{display:none}.inner{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>٥٠ كارت بينا 💬</h1>
+
+  <div class="lobby">
+    <button class="btn alt" id="onl" aria-expanded="false">🌍 العبوا من مكانين مختلفين</button>
+    <div class="lbx" id="lbx">
+      <p>من غير أي حسابات. هتبعتوا لبعض كودين بس مرة واحدة على واتساب.</p>
+      <div class="row"><input id="myn" maxlength="24" placeholder="اسمك" aria-label="اسمك"></div>
+      <div class="row"><button class="sm" id="bh">أنا هبدأ</button><button class="sm" id="bg">صاحبي بعتلي كود</button></div>
+      <div id="hp" hidden>
+        <p>١) انسخ الكود وابعته لصاحبك:</p>
+        <textarea id="hc" readonly aria-label="كود الدعوة"></textarea>
+        <div class="row"><button class="sm" id="ch">نسخ الكود</button></div>
+        <p>٢) لما يرجعلك كود الرد، الصقه هنا:</p>
+        <textarea id="ha" aria-label="كود الرد"></textarea>
+        <div class="row"><button class="sm" id="cn">اتصل</button></div>
+      </div>
+      <div id="gp" hidden>
+        <p>١) الصق الكود اللي صاحبك بعته:</p>
+        <textarea id="gi" aria-label="كود الدعوة"></textarea>
+        <div class="row"><button class="sm" id="mkr">اعمل كود الرد</button></div>
+        <p>٢) انسخ كود الرد وابعته له:</p>
+        <textarea id="gv" readonly aria-label="كود الرد"></textarea>
+        <div class="row"><button class="sm" id="cg">نسخ الكود</button></div>
+      </div>
+      <div class="st" id="st" role="status"></div>
+    </div>
+  </div>
+
+  <div class="players">
+    <div class="pl turn" id="p0"><small>اللاعب الأول</small><input id="n0" value="أنا" aria-label="اسم اللاعب الأول"></div>
+    <div class="pl" id="p1"><small>اللاعب التاني</small><input id="n1" value="إنت" aria-label="اسم اللاعب التاني"></div>
+  </div>
+  <div class="cats" id="cats" role="group" aria-label="الفئات"></div>
+  <div class="count" id="cnt"></div>
+
+  <section id="game">
+    <div class="stage"><button class="card" id="card" aria-live="polite">
+      <div class="inner">
+        <div class="face front"><div class="big">؟</div><span class="t" id="ft"></span></div>
+        <div class="face back"><span class="tag" id="tg"></span><span class="who" id="wh"></span><div class="q" id="q"></div></div>
+      </div>
+    </button></div>
+    <div class="ans" id="ans" hidden>
+      <label for="at" id="al">اكتب إجابتك (اختياري)</label>
+      <textarea id="at" maxlength="400" placeholder="اكتب هنا..."></textarea>
+    </div>
+    <div class="btns">
+      <button class="btn alt" id="sk" disabled>اختار الحكم 😈</button>
+      <button class="btn" id="nx" disabled>الدور اللي بعده</button>
+    </div>
+  </section>
+
+  <section class="end" id="end">
+    <h2>خلّصتوا كل الكروت! 🎉</h2>
+    <p>أكيد عرفتوا عن بعض حاجات جديدة. اللي بيحكي بصدق بيقرّب أكتر.</p>
+    <div class="recap" id="recap"></div>
+    <div class="btns"><button class="btn alt" id="cp">نسخ الإجابات 📋</button><button class="btn" id="rs">نلعب تاني</button></div>
+  </section>
+</main>
+
+<script>
+const C={f:['طريف 😂','#ff9f43'],m:['ذكريات 🕰️','#a78bfa'],d:['أحلام ✨','#2fd18b'],h:['أعمق شوية 💭','#ff6fb1'],c:['تحدي ⚡','#ffd93d']};
+const Q=[
+['f','لو هتتحول لحيوان ليوم واحد، هتبقى إيه وليه؟'],
+['f','إيه أغرب أكلة جربتها وندمت؟'],
+['f','لو عندك قوة خارقة تافهة، هتختار إيه؟'],
+['f','إيه أكتر موقف محرج حصلك ولسه بتضحك عليه؟'],
+['f','لو اتحبسنا في مصعد ساعة، هنعمل إيه؟'],
+['f','إيه أسوأ هدية جاتلك في حياتك؟'],
+['f','لو هتعمل فيلم عن حياتك، اسمه إيه ومين يمثلك؟'],
+['f','إيه أغبى حاجة صدقتها وإنت صغير؟'],
+['f','لو بقيت رئيس دولة ليوم، أول قرار هتاخده إيه؟'],
+['f','إيه الأكلة اللي تاكلها كل يوم ومتزهقش؟'],
+['m','إيه أول انطباع خدته عني؟'],
+['m','إيه أحلى يوم قضيناه مع بعض؟'],
+['m','إيه أول حاجة بتفتكرها من طفولتك؟'],
+['m','مين أكتر شخص أثّر في حياتك وإزاي؟'],
+['m','إيه أحلى هدية خدتها في حياتك وليه؟'],
+['m','إيه الأغنية اللي بتفكّرك بفترة حلوة؟'],
+['m','إيه المكان اللي بتحس فيه إنك رجعت طفل تاني؟'],
+['m','إيه أصعب موقف عدّيت بيه وطلعت منه أقوى؟'],
+['m','إيه أكتر حاجة وحشاك من زمان؟'],
+['m','إمتى آخر مرة ضحكت لحد ما دمعت؟'],
+['d','إيه الحلم اللي نفسك تحققه قبل ما تتم ٣٠ سنة؟'],
+['d','لو معاك فلوس من غير حدود، أول حاجة هتعملها إيه؟'],
+['d','فين المكان اللي نفسك تسافره، ومع مين؟'],
+['d','إيه حاجة نفسك تتعلمها ومالقيتش وقت ليها؟'],
+['d','بتتخيل نفسك فين بعد ١٠ سنين؟'],
+['d','إيه أكتر حاجة بتخليك فخور بنفسك؟'],
+['d','لو هتبدأ مشروع بكرة، هيبقى عن إيه؟'],
+['d','إيه الحاجة اللي لو حصلت هتخليك أسعد إنسان؟'],
+['d','لو رجعت بالزمن، هتنصح نفسك بإيه؟'],
+['d','إيه الحاجة اللي نفسك تتغيّر في الدنيا؟'],
+['h','إيه اللي بيخليك تحس بالأمان؟'],
+['h','إيه أكتر حاجة بتخوّفك؟'],
+['h','إيه أحلى صفة شايفها فيا؟'],
+['h','إيه الحاجة اللي بتفرّحك من غير سبب؟'],
+['h','إيه اللي بتحتاجه لما تبقى زعلان؟'],
+['h','إيه أكتر حاجة بتقدّرها في الصداقة؟'],
+['h','إيه حاجة نفسك حد يفهمها عنك؟'],
+['h','إيه أصعب قرار خدته في حياتك؟'],
+['h','إيه اللي بيخليك تسامح حد؟'],
+['h','إيه معنى السعادة بالنسبة لك؟'],
+['c','قلّد صوت حد من معارفنا لمدة ١٠ ثواني.'],
+['c','قول ٣ حاجات بتحبها في التاني من غير تفكير.'],
+['c','ارسم التاني في ٣٠ ثانية، وهو يحكم على الرسمة.'],
+['c','احكي نكتة، ولو محدش ضحك تعيدها.'],
+['c','اعمل أغرب تعبير وش تقدر عليه وخلي التاني يقلّده.'],
+['c','قول جملة تشجيع للتاني كأنك مذيع نشرة أخبار.'],
+['c','اتكلم ٣٠ ثانية عن أي موضوع من غير ما تقول "يعني".'],
+['c','اختار أغنية وغنّي أول سطر منها.'],
+['c','اخترعوا تحية سرية جديدة بينكم الاتنين.'],
+['c','قول حاجة لطيفة عن التاني ماقلتهاش قبل كده.']
+];
+const F=[
+'ابعت "وحشتني" لآخر شخص كلمته على الواتساب، وورّي التاني رده.',
+'غنّي مقطع من أغنية بصوت أوبرا ودراما كاملة.',
+'اعترف بسر صغير ولا حد يعرفه.',
+'اعمل رقصة مضحكة لمدة دقيقة كاملة.',
+'اتصل بحد من معارفك واتكلم معاه ٣٠ ثانية بلهجة أجنبية مفتعلة.',
+'احكي أكتر موقف إحراج حصلك في حياتك بالتفصيل.',
+'اعمل سيلفي بأبشع تعبير وش وخليها خلفية موبايلك لحد آخر اللعبة.',
+'خلّي التاني يختارلك لقب مضحك، وتنادي بيه نفسك لحد آخر اللعبة.',
+'قول بصراحة حاجة واحدة بتغيظك في التاني (بلطافة).',
+'اكتب رسالة حب درامية لأكلتك المفضلة واقرأها بصوت مسرحي.',
+'اتحدّى التاني في مسابقة بصّة من غير ضحك. اللي يضحك الأول ينفذ حكم تاني.',
+'قول ٣ حاجات بتتمنى تغيّرها في نفسك بصراحة.',
+'مثّل مشهد درامي لمدة ٢٠ ثانية وكأنك في مسلسل تركي.',
+'اعمل مكالمة صوتية مفاجئة لحد من أصحابك وقول له "إنت وحشتني" من غير شرح.',
+'خلّي التاني يقترح حكم من دماغه وتنفذه فورًا.',
+'ابعت للتاني أكتر ستيكر مضحك عندك، وفسّر ليه اخترته.',
+'اتكلم ٣٠ ثانية وكأنك مذيع بيعلن خبر عاجل عن التاني.',
+'غيّر اسمك على الواتساب لاسم مضحك يختاره التاني لمدة ساعة.',
+'خلّي التاني يسألك أي سؤال محرج وتجاوب بصدق من غير ما تراوغ.',
+'اعمل أغرب مشية في الأوضة ولفّة كاملة وإنت متمسك بالجدية.'
+];
+const $=id=>document.getElementById(id),card=$('card'),nx=$('nx'),sk=$('sk');
+const rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const sh=(n,sd)=>{const a=[...Array(n).keys()],r=rng(sd);for(let k=n-1;k>0;k--){const j=Math.floor(r()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+const hash=s=>{let h=7;for(const ch of s)h=(h*31+ch.charCodeAt(0))|0;return Math.abs(h)};
+const rnd=()=>Math.floor(Math.random()*1e9);
+let S={v:0,sel:'all',i:0,turn:0,fl:false,fo:null,fc:0,sd:rnd()};
+let R=null,endV=-1,LOG={},AN='',lastKey='',lastSet='',anT=null;
+
+const deckOf=()=>sh(Q.length,S.sd).filter(k=>S.sel==='all'||Q[k][0]===S.sel);
+function names(){if(!R)return[$('n0').value.trim()||'اللاعب الأول',$('n1').value.trim()||'اللاعب التاني'];return R.nms.map((n,i)=>(n||'...')+(i===R.idx&&n?' (أنت)':''))}
+function canAct(){return !R||(R.open&&S.turn===R.idx)}
+
+function clean(o){const n=x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0;return{v:n(o.v),sel:(o.sel==='all'||C[o.sel])?o.sel:'all',i:n(o.i),turn:o.turn===1?1:0,fl:o.fl===true,fo:o.fo==null?null:n(o.fo),fc:n(o.fc),sd:n(o.sd)}}
+function act(p){S={...S,...p,v:S.v+1};render();send({t:'st',st:S})}
+
+function chips(){const box=$('cats');box.innerHTML='';[['all','الكل 🎲'],...Object.entries(C).map(([k,v])=>[k,v[0]])].forEach(([k,l])=>{const b=document.createElement('button');b.className='cat'+(S.sel===k?' on':'');b.textContent=l;b.setAttribute('aria-pressed',S.sel===k);b.onclick=()=>act({sel:k,i:0,turn:0,fl:false,fo:null});box.appendChild(b)})}
+
+function rain(){for(let k=0;k<32;k++){const b=document.createElement('span');b.className='bit';b.textContent=['🎉','💙','⭐','🩷','✨'][k%5];b.style.left=Math.random()*100+'%';b.style.animationDuration=(3+Math.random()*3)+'s';b.style.animationDelay=Math.random()*1.5+'s';document.body.appendChild(b);setTimeout(()=>b.remove(),8000)}}
+
+let lastSel=null;
+function render(){
+ const d=deckOf(),nm=names(),end=S.i>=d.length;
+ const setK=S.sd+':'+S.sel;if(setK!==lastSet){lastSet=setK;LOG={}}
+ const key=setK+':'+S.i;if(key!==lastKey){lastKey=key;AN='';$('at').value=''}
+ if(lastSel!==S.sel){lastSel=S.sel;chips()}
+ $('game').style.display=end?'none':'block';$('end').classList.toggle('on',end);
+ $('p0').classList.toggle('turn',S.turn===0);$('p1').classList.toggle('turn',S.turn===1);
+ if(R){$('n0').value=nm[0];$('n1').value=nm[1];$('n0').readOnly=$('n1').readOnly=true}else{$('n0').readOnly=$('n1').readOnly=false}
+ $('rs').disabled=false;
+ if(end){$('cnt').textContent='';recap();if(endV!==S.v){endV=S.v;rain()}return}
+ $('cnt').textContent='الكارت '+(S.i+1)+' من '+d.length;
+ const k=d[S.i],my=canAct(),wait=R&&!R.open;
+ card.classList.toggle('flip',S.fl);
+ if(S.fo!=null){const f=sh(F.length,S.sd+7);$('q').textContent=F[f[S.fo%F.length]];const t=$('tg');t.textContent='حكم 😈';t.style.background='#ff6b6b';$('wh').textContent='الحكم على: '+nm[S.turn]}
+ else{$('q').textContent=Q[k][1];const t=$('tg');t.textContent=C[Q[k][0]][0];t.style.background=C[Q[k][0]][1];$('wh').textContent='الدور على: '+nm[S.turn]}
+ $('ft').textContent=wait?'بنستنى اللاعب التاني...':my?nm[S.turn]+'، اضغط عشان تسحب':'دور '+nm[S.turn]+'، استنى شوية';
+ card.disabled=S.fl||!my;
+ sk.disabled=!(S.fl&&S.fo==null&&my);
+ nx.disabled=!(S.fl&&my);
+ nx.textContent=S.i>=d.length-1?'النهاية 🎉':'الدور اللي بعده';
+ const who=nm[S.turn].replace(' (أنت)',''),showA=S.fl&&S.fo==null;
+ $('ans').hidden=!showA;
+ if(showA){const a=$('at');a.readOnly=!my;$('al').textContent=my?'اكتب إجابتك (اختياري)':'إجابة '+who+':';if(!my)a.value=AN;LOG[key]={q:Q[k][1],who,a:AN,f:''}}
+ else if(S.fl&&S.fo!=null){LOG[key]={q:Q[k][1],who,a:'',f:F[sh(F.length,S.sd+7)[S.fo%F.length]]}}
+}
+
+card.addEventListener('click',()=>{if(!S.fl&&canAct())act({fl:true,fo:null})});
+sk.addEventListener('click',()=>{if(canAct()&&S.fl&&S.fo==null)act({fo:S.fc,fc:S.fc+1})});
+nx.addEventListener('click',()=>{if(!canAct())return;const n=deckOf().length;if(S.i>=n-1)act({i:S.i+1});else act({i:S.i+1,turn:1-S.turn,fl:false,fo:null})});
+$('rs').addEventListener('click',()=>act({i:0,turn:0,fl:false,fo:null,sd:rnd()}));
+['n0','n1'].forEach(id=>$(id).addEventListener('input',()=>{if(!R)render()}));
+
+/* ---------- Online: direct connection, no accounts ---------- */
+const myName=()=>($('myn').value.trim()||'لاعب').slice(0,24);
+function send(m){if(R&&R.open){try{R.dc.send(JSON.stringify(m))}catch(e){}}}
+$('onl').addEventListener('click',()=>{const o=$('lbx').classList.toggle('on');$('onl').setAttribute('aria-expanded',o)});
+$('myn').addEventListener('input',()=>{if(R){R.nms[R.idx]=myName();send({t:'nm',nm:myName()});render()}});
+const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]};
+async function enc(t){try{if(window.CompressionStream){const cs=new CompressionStream('deflate'),w=cs.writable.getWriter();w.write(new TextEncoder().encode(t));w.close();const u=new Uint8Array(await new Response(cs.readable).arrayBuffer());let b='';u.forEach(x=>b+=String.fromCharCode(x));return 'z'+btoa(b)}}catch(e){}return 'r'+btoa(unescape(encodeURIComponent(t)))}
+async function dec(t){t=t.trim().replace(/\s+/g,'');const b=atob(t.slice(1));if(t[0]==='z'){const u=Uint8Array.from(b,c=>c.charCodeAt(0)),ds=new DecompressionStream('deflate'),w=ds.writable.getWriter();w.write(u);w.close();return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer())}return decodeURIComponent(escape(b))}
+const gathered=p=>new Promise(res=>{if(p.iceGatheringState==='complete')return res();const f=()=>{if(p.iceGatheringState==='complete'){p.removeEventListener('icegatheringstatechange',f);res()}};p.addEventListener('icegatheringstatechange',f);setTimeout(res,5000)});
+const say=t=>$('st').textContent=t;
+let pc=null;
+function wire(ch,idx){
+ ch.onopen=()=>{R={dc:ch,idx,open:true,nms:['','']};R.nms[idx]=myName();
+  send({t:'nm',nm:myName()});if(idx===0)send({t:'st',st:S});
+  $('hp').hidden=true;$('gp').hidden=true;say('🟢 متصلين! اللعب بقى لايف بينكم الاتنين.');render()};
+ ch.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(x){return}if(!m||!R)return;
+  if(m.t==='nm'){R.nms[1-R.idx]=String(m.nm||'').slice(0,24)||'لاعب';render()}
+  else if(m.t==='an'){if(m.k===lastKey&&S.turn!==R.idx){AN=String(m.a||'').slice(0,400);render()}}
+  else if(m.t==='st'&&m.st&&typeof m.st==='object'){const c=clean(m.st);
+   if(c.v>S.v||(c.v===S.v&&R.idx===1&&JSON.stringify(c)!==JSON.stringify(S))){S=c;render()}}};
+ ch.onclose=()=>{if(R){R.open=false;say('الاتصال اتقطع. اعملوا ربط جديد أو افتحوا الصفحة تاني.');render()}};
+}
+function newPc(){if(typeof RTCPeerConnection==='undefined'){say('المتصفح ده مش بيدعم الربط المباشر. جرّب Chrome أو Safari حديث.');return null}
+ pc=new RTCPeerConnection(ICE);pc.onconnectionstatechange=()=>{if(pc.connectionState==='failed')say('معرفناش نوصّل. ممكن الشبكة مانعة الربط المباشر. جرّبوا شبكة تانية أو واي فاي واحد.')};return pc}
+async function copyFrom(id){const t=$(id);t.select();try{await navigator.clipboard.writeText(t.value);say('اتنسخ ✔ ابعته لصاحبك.')}catch(e){try{document.execCommand('copy');say('اتنسخ ✔')}catch(x){say('اضغط مطولًا على الكود وانسخه.')}}}
+$('bh').addEventListener('click',async()=>{
+ if(R)return;const p=newPc();if(!p)return;$('gp').hidden=true;$('hp').hidden=false;say('بنجهّز الكود...');
+ const ch=p.createDataChannel('g');wire(ch,0);
+ await p.setLocalDescription(await p.createOffer());await gathered(p);
+ $('hc').value=await enc(JSON.stringify(p.localDescription));say('انسخ الكود وابعته لصاحبك.');
+});
+$('ch').addEventListener('click',()=>copyFrom('hc'));
+$('cn').addEventListener('click',async()=>{
+ try{await pc.setRemoteDescription(JSON.parse(await dec($('ha').value)));say('بنوصّل...')}catch(e){say('الكود مش مظبوط. اتأكد إنك لصقته كامل.')}
+});
+$('bg').addEventListener('click',()=>{if(R)return;$('hp').hidden=true;$('gp').hidden=false;say('')});
+$('mkr').addEventListener('click',async()=>{
+ const p=newPc();if(!p)return;say('بنجهّز كود الرد...');
+ p.ondatachannel=e=>wire(e.channel,1);
+ try{await p.setRemoteDescription(JSON.parse(await dec($('gi').value)));await p.setLocalDescription(await p.createAnswer());await gathered(p);
+  $('gv').value=await enc(JSON.stringify(p.localDescription));say('انسخ كود الرد وابعته لصاحبك، وهو هيضغط "اتصل".')}
+ catch(e){say('الكود مش مظبوط. اتأكد إنك لصقته كامل.')}
+});
+$('cg').addEventListener('click',()=>copyFrom('gv'));
+$('at').addEventListener('input',()=>{AN=$('at').value.slice(0,400);if(LOG[lastKey])LOG[lastKey].a=AN;clearTimeout(anT);anT=setTimeout(()=>send({t:'an',k:lastKey,a:AN}),250)});
+function recap(){const box=$('recap');box.innerHTML='';Object.values(LOG).forEach(e=>{const d=document.createElement('div');d.className='rc';const q=document.createElement('b');q.textContent=e.q;const a=document.createElement('span');a.textContent=e.f?'😈 '+e.who+' نفّذ حكم: '+e.f:e.who+': '+(e.a||'(جاوب شفوي)');d.append(q,a);box.appendChild(d)})}
+$('cp').addEventListener('click',async()=>{const t=Object.values(LOG).map(e=>e.q+'\n'+(e.f?'حكم: '+e.f:e.who+': '+(e.a||'—'))).join('\n\n');try{await navigator.clipboard.writeText(t);$('cp').textContent='اتنسخ ✔'}catch(x){$('cp').textContent='مقدرناش ننسخ'}});
+chips();render();
+</script>
+</body>
+</html>
